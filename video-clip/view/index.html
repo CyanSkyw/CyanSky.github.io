@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../assets/css/index.css">
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="img-container">
+            <ul class="img-list">
+                <li class="img-item">
+                    <div class="img-content">
+                        <div class="img-box">
+                            <img src="../assets/img/img1.jpg" id="img1.jpg" alt="" class="img">
+                            
+                        </div>
+                        <label class="img-info">
+                            img1.jpg
+                        </label>
+                        <label class="img-info">
+                            2022.9.16
+                        </label>
+                        <label class="img-info">
+                            00:00:00
+                        </label>
+                    </div>
+                    
+                </li>
+                <li class="img-item">
+                    <div class="img-content">
+                    <div class="img-box" draggable="true">
+                        <img src="../assets/img/img2.jpg" id="img2.jpg" alt="" class="img">
+                    </div>
+                    <label class="img-info">
+                        img1egfaertgsertgsertawdfafazergfaerfZSEfzsefzsefzssertsertsrt.jpg
+                    </label>
+                    <label class="img-info">
+                        2022.9.16
+                    </label>
+                    <label class="img-info">
+                        00:00:00
+                    </label>
+                </div>
+                </li>
+                <li class="img-item">
+                    <div class="img-content">
+                    <div class="img-box" draggable="true">
+                        <img src="../assets/img/img3.jpg" id="img3.jpg" alt="" class="img">
+                    </div>
+                    <label class="img-info">
+                        img1egfaertgsertgsertawdfafazergfaerfZSEfzsefzsefzssertsertsrt.jpg
+                    </label>
+                    <label class="img-info">
+                        2022.9.16
+                    </label>
+                    <label class="img-info">
+                        00:00:00
+                    </label>
+                </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="track-container" id="trackBox">
+        <div class="time-track" id="timeTrack">
+        </div>
+        <div class="img-track" id="imgTrack">
+        </div>
+        <div class="vernier">
+            游标
+        </div>
+    </div>
+
+    <!-- jquery -->
+    <script src="../modules/jquery-3.6.1.min.js"></script>
+    <script>
+        let imgList=document.querySelectorAll('.img');
+        let imgTrack=document.getElementById('imgTrack');
+        let timeTracker=document.getElementById('timeTrack');
+        let trackBox=document.getElementById('trackBox');
+        let onChecked=false;
+        let isEnter=false;
+
+        
+        let trackTop=trackBox.offsetTop;
+        let trackHeight=trackBox.offsetHeight;
+
+        for(let i=0;i<imgList.length;i++){
+            // debugger
+            imgList[i].addEventListener('mousedown',reasloveStart);
+            
+            imgList[i].draggable=false;
+        }
+
+
+        let trackList=[];
+        let imgTarget=null;
+        let floatTarget=null;
+        
+        let currentLeft=0;
+        let currentRight=0;
+        setScale();
+        function resolveOver(ev){
+            if(onChecked){
+                // debugger
+                if(!isEnter){
+                    isEnter=true;
+                    setPlace(ev);
+                }else if(ev.clientX<currentLeft||ev.clientX>currentRight){
+                    imgTarget.remove();
+                    setPlace(ev);
+                }else if(currentRight===Number.POSITIVE_INFINITY){
+                    imgTarget.style.left=`${ev.clientX}px`;
+                }
+            }
+        }
+
+        function setPlace(ev){
+            let width=0;
+            let moveFlag=false;
+            for(let i=0;i<trackList.length;i++){
+                    width+=trackList[i];
+                    // console.log(width,ev.offsetX);
+                    // debugger
+                        if(ev.clientX<width){
+                            if(!moveFlag){
+                                if(i==0){
+                                currentLeft=0;
+                                }
+                                currentLeft=width-trackList[i];
+                                currentRight=width;
+                                // debugger
+                                imgTrack.children[i].before(imgTarget);
+                                imgTarget.style.left=`${currentLeft}px`;
+                                moveFlag=true;
+                            }
+                            if(moveFlag){
+                                imgTrack.children[i+1].style.left=`${width+imgTarget.width-trackList[i]}px`;
+                            }
+                        }else{
+                            // debugger
+                            imgTrack.children[i].style.left=`${width-trackList[i]}px`;
+                        }
+                    }
+                    if(!moveFlag){
+                        imgTrack.append(imgTarget);
+                        currentLeft=width;
+                        currentRight=Number.POSITIVE_INFINITY;
+                        imgTarget.style.left=`${ev.clientX}px`;
+                    }
+        }
+
+        function resolveup(){
+            if(isEnter){
+                resolveDrop()
+            }
+            floatTarget.remove();
+            floatTarget=null;
+            // imgTarget=null;
+            onChecked=false;
+            isEnter=false;
+            currentIndex=-1;
+        }
+
+        function resolveLeave(ev){
+            if(isEnter&&onChecked){
+                imgTarget.remove();
+                isEnter=false;
+                floatTarget.style.opacity=1;
+                resolveRemove();
+            }
+            currentIndex=-1;
+        }
+
+        //鼠标按下
+        function reasloveStart(ev){
+            if(!imgTarget||!floatTarget){
+                onChecked=true;
+                
+                if(imgTarget){
+                    imgTarget.classList.remove('img-check');
+                }
+                imgTarget=ev.target.cloneNode();
+                imgTarget.draggable=false;
+                imgTarget.classList.add('img-target');
+                imgTarget.addEventListener('mousedown',reasloveChange);
+                
+
+                floatTarget=ev.target.cloneNode();
+                floatTarget.classList.add('img-float');
+                floatTarget.style.left=`${ev.clientX}px`;
+                floatTarget.style.top=`${ev.clientY}px`;
+                floatTarget.addEventListener('mousemove',resloveFllow);
+                floatTarget.addEventListener('mouseup',resolveup)
+                document.querySelector('body').appendChild(floatTarget);
+            }
+        }
+        function resolveDrop(ev){
+            // debugger
+            trackList=[];
+            let width=0;
+            // imgTrack.children.sort((node1,node2)=>{return node1.style.order-node2.style.order})
+            // debugger
+            imgTarget.classList.add('img-check');
+
+            for(let i=0;i<imgTrack.children.length;i++){
+                // debugger
+                trackList.push(imgTrack.children[i].offsetWidth);
+                imgTrack.children[i].style.left=`${width}px`;
+                imgTrack.children[i].classList.add('img-completed');
+                width+=imgTrack.children[i].offsetWidth;
+            }
+            setScale()
+        }
+
+        function resolveRemove(){
+            trackList=[];
+            let width=0;
+            // imgTrack.children.sort((node1,node2)=>{return node1.style.order-node2.style.order})
+            for(let i=0;i<imgTrack.children.length;i++){
+                // debugger
+                trackList.push(imgTrack.children[i].width);
+                imgTrack.children[i].style.left=`${width}px`;
+                width+=imgTrack.children[i].width;
+            }
+        }
+
+        function reasloveChange(ev){
+            
+            if(imgTarget!==ev.target){
+                if(imgTarget){
+                    imgTarget.classList.remove('img-check');
+                }
+                imgTarget=ev.target;
+                imgTarget.classList.add('img-check');
+            }else{
+                imgTarget.classList.remove('img-completed');
+                reasloveStart(ev);
+                ev.target.remove();
+            }
+            
+        }
+
+        function resloveFllow(ev){
+            if(floatTarget){
+                console.log(ev);
+                floatTarget.style.left=`${ev.clientX}px`;
+                floatTarget.style.top=`${ev.clientY}px`;
+            }
+            console.log(ev);
+            // debugger
+            if(ev.clientY>trackTop&&ev.clientY<trackTop+trackHeight){
+                // debugger
+                resolveOver(ev);
+                floatTarget.style.opacity=0;
+            }else{
+                resolveLeave();
+            }
+        }
+
+        function setScale(){
+            let containerWidth=trackBox.scrollWidth;
+            let scaleHtmlStr='';
+            for(let i=0;containerWidth>0;containerWidth-=200,i++){
+                if(i<10){
+                    scaleHtmlStr+=`<span>00:0${i}:00</span>`;
+                }else if (i<60){
+                    scaleHtmlStr+=`<span>00:${i}:00</span>`;
+                }else if (i>60&&i%60<10&&i/60<10){
+                    scaleHtmlStr+=`<span>0${Math.floor(i/60)}:0${i%60}:00</span>`;
+                }else if (i>60&&i%60>=10&&i/60<10){
+                    scaleHtmlStr+=`<span>0${Math.floor(i/60)}:${i%60}:00</span>`;
+                }else if (i>60&&i%60<10&&i/60>=10){
+                    scaleHtmlStr+=`<span${Math.floor(i/60)}:0${i%60}:00</span>`;
+                }else if (i>60&&i%60>=10&&i/60>=10){
+                    scaleHtmlStr+=`<span>${Math.floor(i/60)}:${i%60}:00</span>`;
+                }
+            }
+            timeTracker.innerHTML=scaleHtmlStr;
+        }
+
+        
+        
+    </script>
+</body>
+
+</html>
