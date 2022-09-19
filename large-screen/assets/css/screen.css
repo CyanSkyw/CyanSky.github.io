@@ -51,7 +51,7 @@
 
 .gradient-title {
     color: transparent;
-    background-image: linear-gradient(to bottom, #d4dcf1, #7990d7);
+    background-image: linear-gradient(to right, #000, #444);
     -webkit-background-clip: text;
 }
 
@@ -145,7 +145,7 @@
 }
 
 .header-mid {
-    line-height: 3.5rem;
+    line-height: 3rem;
     justify-self:center;
 }
 
