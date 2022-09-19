@@ -1,6 +1,7 @@
 body{
     overflow: hidden;
 }
+ul{padding: 0;}
 li{
     list-style-type: none;
 }
@@ -12,6 +13,10 @@ li{
 .img-item{
     flex: 0 0 25%;
     box-sizing: border-box;
+}
+
+.img-container{
+    margin-bottom: 200px;
 }
 
 .img-content{
@@ -34,6 +39,21 @@ img{
     box-sizing: border-box;
 }
 
+.img-shadow img{
+    height: 150px;
+    position: absolute;
+    z-index: -999;
+    visibility: hidden;
+   
+}
+
+.img-clone{
+    height: 150px;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+
 .img-box img{
     max-width: 100%;
     max-height: 100%;
@@ -55,12 +75,14 @@ img{
     width:100% ;
     background: #ddd;
     overflow-y:visible;
+    overflow-x:scroll;
+}
+.track-tool{
+    height: 50px;
+    width: 100%;
 }
 .time-track{
-    /* display: flex;
-    justify-self: start; */
     height: 50px;
-    /* flex-wrap: nowrap; */
     white-space: nowrap;
     
 }
@@ -68,6 +90,7 @@ img{
     display: inline-block;
     width:100px;
     height: 100%;
+    background: #eee;
     background-image: 
     repeating-linear-gradient(90deg, grey 0, grey 2px, transparent 0, transparent 200px),
     repeating-linear-gradient(90deg, grey 0, grey 2px, transparent 0, transparent 100px),
@@ -76,6 +99,7 @@ img{
     background-repeat: no-repeat;
     background-size: 100% 20px , 100% 15px , 100% 10px;
     background-position:0 100%;
+    
 }
 .time-track span:not(:first-child){
     width:200px;
@@ -93,7 +117,6 @@ img{
     height: 150px;
     white-space: nowrap;
     min-width:100% ;
-    background: #eee;
 }
 
 .img-float{
@@ -135,6 +158,8 @@ img{
     padding: 15px 30px;
     border-radius: 5px;
     transform: translateX(-50%);
+    text-align: center;
+    cursor: pointer;
 }
 .vernier::before{
     content: '';
@@ -147,6 +172,7 @@ img{
     border-top:10px solid greenyellow ;
     border-left:8px solid transparent ;
     border-right:8px solid transparent ;
+    cursor:  col-resize;
     -webkit-transform: translateX(-50%);
     -moz-transform: translateX(-50%);
     -ms-transform: translateX(-50%);

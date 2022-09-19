@@ -11,14 +11,14 @@
 </head>
 
 <body>
+    <div class="img-shadow" id="imgShadow"></div>
     <div class="container">
         <div class="img-container">
             <ul class="img-list">
                 <li class="img-item">
                     <div class="img-content">
                         <div class="img-box">
-                            <img src="../assets/img/img1.jpg" id="img1.jpg" alt="" class="img">
-                            
+                            <img src="../assets/img/img1.jpg" imgsource="../assets/img/float1.png" alt="" class="img" draggable=false>
                         </div>
                         <label class="img-info">
                             img1.jpg
@@ -34,8 +34,8 @@
                 </li>
                 <li class="img-item">
                     <div class="img-content">
-                    <div class="img-box" draggable="true">
-                        <img src="../assets/img/img2.jpg" id="img2.jpg" alt="" class="img">
+                    <div class="img-box">
+                        <img src="../assets/img/img2.jpg"  imgsource="../assets/img/float2.png" alt="" class="img" draggable=false>
                     </div>
                     <label class="img-info">
                         img1egfaertgsertgsertawdfafazergfaerfZSEfzsefzsefzssertsertsrt.jpg
@@ -50,8 +50,56 @@
                 </li>
                 <li class="img-item">
                     <div class="img-content">
-                    <div class="img-box" draggable="true">
-                        <img src="../assets/img/img3.jpg" id="img3.jpg" alt="" class="img">
+                    <div class="img-box">
+                        <img src="../assets/img/img3.jpg"  imgsource="../assets/img/float1.png" alt="" class="img" draggable=false>
+                    </div>
+                    <label class="img-info">
+                        img1egfaertgsertgsertawdfafazergfaerfZSEfzsefzsefzssertsertsrt.jpg
+                    </label>
+                    <label class="img-info">
+                        2022.9.16
+                    </label>
+                    <label class="img-info">
+                        00:00:00
+                    </label>
+                </div>
+                </li>
+                <li class="img-item">
+                    <div class="img-content">
+                    <div class="img-box">
+                        <img src="../assets/img/img4.jpg"  imgsource="../assets/img/float2.png" alt="" class="img" draggable=false>
+                    </div>
+                    <label class="img-info">
+                        img1egfaertgsertgsertawdfafazergfaerfZSEfzsefzsefzssertsertsrt.jpg
+                    </label>
+                    <label class="img-info">
+                        2022.9.16
+                    </label>
+                    <label class="img-info">
+                        00:00:00
+                    </label>
+                </div>
+                </li>
+                <li class="img-item">
+                    <div class="img-content">
+                    <div class="img-box">
+                        <img src="../assets/img/img5.jpg"  imgsource="../assets/img/float1.png" alt="" class="img" draggable=false>
+                    </div>
+                    <label class="img-info">
+                        img1egfaertgsertgsertawdfafazergfaerfZSEfzsefzsefzssertsertsrt.jpg
+                    </label>
+                    <label class="img-info">
+                        2022.9.16
+                    </label>
+                    <label class="img-info">
+                        00:00:00
+                    </label>
+                </div>
+                </li>
+                <li class="img-item">
+                    <div class="img-content">
+                    <div class="img-box">
+                        <img src="../assets/img/dragon.jpg"  imgsource="../assets/img/float2.png" alt="" class="img" draggable=false>
                     </div>
                     <label class="img-info">
                         img1egfaertgsertgsertawdfafazergfaerfZSEfzsefzsefzssertsertsrt.jpg
@@ -66,21 +114,29 @@
                 </li>
             </ul>
         </div>
-    </div>
+    
     <div class="track-container" id="trackBox">
+        <div class="track-tool"></div>
         <div class="time-track" id="timeTrack">
         </div>
         <div class="img-track" id="imgTrack">
         </div>
         <div class="vernier" id="vernier">
-            游标
+            剪切
+            <br/>
+            00:00:00
         </div>
     </div>
+</div>
 
     <!-- jquery -->
     <script src="../modules/jquery-3.6.1.min.js"></script>
     <script>
         let imgList=document.querySelectorAll('.img');
+
+        let imgShadowBox=document.getElementById('imgShadow');
+        let imgShadow;
+
         let imgTrack=document.getElementById('imgTrack');
         let timeTracker=document.getElementById('timeTrack');
         let trackBox=document.getElementById('trackBox');
@@ -93,10 +149,9 @@
         let trackHeight=trackBox.offsetHeight;
 
         for(let i=0;i<imgList.length;i++){
-            // debugger
+            
             imgList[i].addEventListener('mousedown',reasloveStart);
             
-            imgList[i].draggable=false;
         }
 
 
@@ -107,9 +162,10 @@
         let currentLeft=0;
         let currentRight=0;
         setScale();
+
         function resolveOver(ev){
             if(onChecked){
-                // debugger
+                
                 if(!isEnter){
                     isEnter=true;
                     setPlace(ev);
@@ -128,24 +184,24 @@
             for(let i=0;i<trackList.length;i++){
                     width+=trackList[i];
                     // console.log(width,ev.offsetX);
-                    // debugger
+                    
                         if(ev.clientX<width){
                             if(!moveFlag){
                                 if(i==0){
-                                currentLeft=0;
+                                    currentLeft=0;
                                 }
                                 currentLeft=width-trackList[i];
                                 currentRight=width;
-                                // debugger
+                                
                                 imgTrack.children[i].before(imgTarget);
                                 imgTarget.style.left=`${currentLeft}px`;
                                 moveFlag=true;
                             }
                             if(moveFlag){
-                                imgTrack.children[i+1].style.left=`${width+imgTarget.width-trackList[i]}px`;
+                                imgTrack.children[i+1].style.left=`${width+imgTarget.offsetWidth-trackList[i]}px`;
                             }
                         }else{
-                            // debugger
+                            
                             imgTrack.children[i].style.left=`${width-trackList[i]}px`;
                         }
                     }
@@ -161,6 +217,7 @@
             if(isEnter){
                 resolveDrop()
             }else{
+                
                 imgTarget=null;
             }
             floatTarget.remove();
@@ -173,8 +230,8 @@
 
         function resolveLeave(ev){
             if(isEnter&&onChecked){
+                
                 imgTarget.remove();
-                imgTarget=null;
                 isEnter=false;
                 floatTarget.style.opacity=1;
                 resolveRemove();
@@ -182,23 +239,47 @@
             currentIndex=-1;
         }
 
+        function getImageSize(url){
+            if(imgShadow){
+                imgShadow.remove();
+                imgShadow=null;
+            }
+            imgShadow = new Image();
+            imgShadow.src = url;
+            imgShadowBox.appendChild(imgShadow);
+            imgShadow.onload = function () {
+                
+                let width=imgShadow.offsetWidth;
+                imgTarget.style.width=`${width}px`;
+                imgTarget.style.backgroundSize=`${width}px`;
+                floatTarget.style.width=`${width}px`;
+            };
+        }
+
         //鼠标按下
         function reasloveStart(ev){
             if(!imgTarget||!floatTarget){
                 onChecked=true;
-                
                 if(imgTarget){
                     imgTarget.classList.remove('img-check');
-                    imgTarget=null;
                 }
-                imgTarget=ev.target.cloneNode();
-                floatTarget=ev.target.cloneNode();
+                if(ev.target.tagName==="IMG"){
+                    let url=ev.target.getAttribute('imgsource');//获取实际移动的图片名称;
+                    getImageSize(url);
+                    imgTarget=document.createElement('div');
+                    imgTarget.classList.add('img-clone');
+                    imgTarget.style.backgroundImage="url('"+url+"')";
+                }else{
+                    imgTarget=ev.target.cloneNode();
+                }
+                
 
+                floatTarget=imgTarget.cloneNode();
+                document.querySelector('body').appendChild(floatTarget);
+                
                 imgTarget.draggable=false;
                 imgTarget.classList.add('img-target');
                 imgTarget.addEventListener('mousedown',reasloveChange);
-                
-
                 
                 floatTarget.classList.add('img-float');
                 floatTarget.style.left=`${ev.clientX}px`;
@@ -206,19 +287,18 @@
                 floatTarget.addEventListener('mousemove',resloveFllow);
                 floatTarget.addEventListener('mouseup',resolveup);
                 floatTarget.addEventListener('mouseout',resolveup);
-                document.querySelector('body').appendChild(floatTarget);
             }
         }
         function resolveDrop(ev){
-            // debugger
+            
             trackList=[];
             let width=0;
             // imgTrack.children.sort((node1,node2)=>{return node1.style.order-node2.style.order})
-            // debugger
+            
             imgTarget.classList.add('img-check');
 
             for(let i=0;i<imgTrack.children.length;i++){
-                // debugger
+                
                 trackList.push(imgTrack.children[i].offsetWidth);
                 imgTrack.children[i].style.left=`${width}px`;
                 imgTrack.children[i].classList.add('img-completed');
@@ -232,10 +312,10 @@
             let width=0;
             // imgTrack.children.sort((node1,node2)=>{return node1.style.order-node2.style.order})
             for(let i=0;i<imgTrack.children.length;i++){
-                // debugger
-                trackList.push(imgTrack.children[i].width);
+             
+                trackList.push(imgTrack.children[i].offsetWidth);
                 imgTrack.children[i].style.left=`${width}px`;
-                width+=imgTrack.children[i].width;
+                width+=imgTrack.children[i].offsetWidth;
             }
         }
 
@@ -248,9 +328,12 @@
                 imgTarget=ev.target;
                 imgTarget.classList.add('img-check');
             }else{
+                isEnter=false;
                 imgTarget.classList.remove('img-completed');
+                imgTarget.classList.remove('img-check');
+                imgTarget.remove();
+                resolveRemove();
                 reasloveStart(ev);
-                ev.target.remove();
             }
             
         }
@@ -279,9 +362,38 @@
 
         timeTracker.addEventListener('click',resolveMoveVernier)
         function resolveMoveVernier(ev){
-            if(imgTarget&&ev.layerX>imgTarget.offsetLeft&&ev.layerX>imgTarget.offsetWidth){
-                debugger
+            if(imgTarget&&ev.layerX>imgTarget.offsetLeft&&ev.layerX<imgTarget.offsetLeft+imgTarget.offsetWidth){
                 vernier.style.left=`${ev.layerX}px`;
+                let h=Math.floor(vernier.offsetLeft/1200);
+                let m=Math.floor((vernier.offsetLeft-h*1200)/200);
+                let s=Math.floor(vernier.offsetLeft%200*0.3.toFixed(2));
+                vernier.innerHTML=`剪切<br/>${padStart(h.toString())}:${padStart(m.toString())}:${padStart(s.toString())}`;
+            }
+        }
+
+        vernier.addEventListener('click',resolveShear)
+
+        function resolveShear(ev){
+            if(imgTarget&&vernier.offsetLeft-imgTarget.offsetLeft>0){
+                
+                let widthLeft=vernier.offsetLeft-imgTarget.offsetLeft+3;
+                let widthRight=imgTarget.offsetLeft+imgTarget.offsetWidth-vernier.offsetLeft+3;
+
+                let targetClone=imgTarget.cloneNode();
+
+                imgTarget.style.width=`${widthLeft}px`;
+
+                let position=0-Number(targetClone.style.backgroundPosition.split('px')[0])||0;
+                targetClone.style.backgroundPosition=`-${position+widthLeft-6}px 0`;
+                targetClone.style.width=`${widthRight}px`;
+             
+                targetClone.style.left=`${imgTarget.offsetLeft+widthLeft}px`;
+                targetClone.classList.remove('img-check');
+                targetClone.addEventListener('mousedown',reasloveChange);
+                imgTarget.after(targetClone);
+                resolveRemove();
+                vernier.style.left=`0px`;
+                vernier.innerHTML=" 剪切<br/>00:00:00";
             }
         }
 
