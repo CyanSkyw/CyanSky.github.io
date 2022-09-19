@@ -130,7 +130,7 @@ img{
 
 .vernier{
     position: absolute;
-    bottom: 170px;
+    bottom: 160px;
     background: greenyellow;
     padding: 15px 30px;
     border-radius: 5px;
@@ -144,9 +144,13 @@ img{
     transform: translateX(-50%);
     width: 0;
     height: 0;
-    border-top:8px solid greenyellow ;
+    border-top:10px solid greenyellow ;
     border-left:8px solid transparent ;
     border-right:8px solid transparent ;
+    -webkit-transform: translateX(-50%);
+    -moz-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    -o-transform: translateX(-50%);
 }
 
 .vernier::after{
@@ -154,7 +158,11 @@ img{
     position: absolute;
     top: 100%;
     left: 50%;
-    transform: translate(calc(-50%),5px);
+    transform: translate(calc(-50%),10px);
     height: 150px;
     border-right:3px solid greenyellow ;
+    -webkit-transform: translate(calc(-50%),10px);
+    -moz-transform: translate(calc(-50%),10px);
+    -ms-transform: translate(calc(-50%),10px);
+    -o-transform: translate(calc(-50%),10px);
 }

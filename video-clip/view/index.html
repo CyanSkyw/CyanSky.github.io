@@ -72,7 +72,7 @@
         </div>
         <div class="img-track" id="imgTrack">
         </div>
-        <div class="vernier">
+        <div class="vernier" id="vernier">
             游标
         </div>
     </div>
@@ -84,6 +84,7 @@
         let imgTrack=document.getElementById('imgTrack');
         let timeTracker=document.getElementById('timeTrack');
         let trackBox=document.getElementById('trackBox');
+        let vernier=document.getElementById('vernier');
         let onChecked=false;
         let isEnter=false;
 
@@ -159,6 +160,8 @@
         function resolveup(){
             if(isEnter){
                 resolveDrop()
+            }else{
+                imgTarget=null;
             }
             floatTarget.remove();
             floatTarget=null;
@@ -171,6 +174,7 @@
         function resolveLeave(ev){
             if(isEnter&&onChecked){
                 imgTarget.remove();
+                imgTarget=null;
                 isEnter=false;
                 floatTarget.style.opacity=1;
                 resolveRemove();
@@ -185,19 +189,23 @@
                 
                 if(imgTarget){
                     imgTarget.classList.remove('img-check');
+                    imgTarget=null;
                 }
                 imgTarget=ev.target.cloneNode();
+                floatTarget=ev.target.cloneNode();
+
                 imgTarget.draggable=false;
                 imgTarget.classList.add('img-target');
                 imgTarget.addEventListener('mousedown',reasloveChange);
                 
 
-                floatTarget=ev.target.cloneNode();
+                
                 floatTarget.classList.add('img-float');
                 floatTarget.style.left=`${ev.clientX}px`;
                 floatTarget.style.top=`${ev.clientY}px`;
                 floatTarget.addEventListener('mousemove',resloveFllow);
-                floatTarget.addEventListener('mouseup',resolveup)
+                floatTarget.addEventListener('mouseup',resolveup);
+                floatTarget.addEventListener('mouseout',resolveup);
                 document.querySelector('body').appendChild(floatTarget);
             }
         }
@@ -249,14 +257,10 @@
 
         function resloveFllow(ev){
             if(floatTarget){
-                console.log(ev);
                 floatTarget.style.left=`${ev.clientX}px`;
                 floatTarget.style.top=`${ev.clientY}px`;
             }
-            console.log(ev);
-            // debugger
             if(ev.clientY>trackTop&&ev.clientY<trackTop+trackHeight){
-                // debugger
                 resolveOver(ev);
                 floatTarget.style.opacity=0;
             }else{
@@ -268,25 +272,22 @@
             let containerWidth=trackBox.scrollWidth;
             let scaleHtmlStr='';
             for(let i=0;containerWidth>0;containerWidth-=200,i++){
-                if(i<10){
-                    scaleHtmlStr+=`<span>00:0${i}:00</span>`;
-                }else if (i<60){
-                    scaleHtmlStr+=`<span>00:${i}:00</span>`;
-                }else if (i>60&&i%60<10&&i/60<10){
-                    scaleHtmlStr+=`<span>0${Math.floor(i/60)}:0${i%60}:00</span>`;
-                }else if (i>60&&i%60>=10&&i/60<10){
-                    scaleHtmlStr+=`<span>0${Math.floor(i/60)}:${i%60}:00</span>`;
-                }else if (i>60&&i%60<10&&i/60>=10){
-                    scaleHtmlStr+=`<span${Math.floor(i/60)}:0${i%60}:00</span>`;
-                }else if (i>60&&i%60>=10&&i/60>=10){
-                    scaleHtmlStr+=`<span>${Math.floor(i/60)}:${i%60}:00</span>`;
-                }
+                scaleHtmlStr+=`<span>${padStart(Math.floor(i/60).toString())}:${padStart(Math.floor(i%60).toString())}:00</span>`;
             }
             timeTracker.innerHTML=scaleHtmlStr;
         }
 
-        
-        
+        timeTracker.addEventListener('click',resolveMoveVernier)
+        function resolveMoveVernier(ev){
+            if(imgTarget&&ev.layerX>imgTarget.offsetLeft&&ev.layerX>imgTarget.offsetWidth){
+                debugger
+                vernier.style.left=`${ev.layerX}px`;
+            }
+        }
+
+        function padStart(str){
+            return ('00' + str).substr(-2)
+        }
     </script>
 </body>
 
