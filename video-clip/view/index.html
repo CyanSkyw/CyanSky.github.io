@@ -18,7 +18,7 @@
                 <li class="img-item">
                     <div class="img-content">
                         <div class="img-box">
-                            <img src="../assets/img/img1.jpg" imgsource="../assets/img/float1.png" alt="" class="img" draggable=false>
+                            <img src="../assets/img/img1.jpg" alt="" class="img" draggable=false>
                         </div>
                         <label class="img-info">
                             img1.jpg
@@ -35,7 +35,7 @@
                 <li class="img-item">
                     <div class="img-content">
                     <div class="img-box">
-                        <img src="../assets/img/img2.jpg"  imgsource="../assets/img/float2.png" alt="" class="img" draggable=false>
+                        <img src="../assets/img/img2.jpg"  alt="" class="img" draggable=false>
                     </div>
                     <label class="img-info">
                         img1egfaertgsertgsertawdfafazergfaerfZSEfzsefzsefzssertsertsrt.jpg
@@ -51,7 +51,7 @@
                 <li class="img-item">
                     <div class="img-content">
                     <div class="img-box">
-                        <img src="../assets/img/img3.jpg"  imgsource="../assets/img/float1.png" alt="" class="img" draggable=false>
+                        <img src="../assets/img/img3.jpg"  alt="" class="img" draggable=false>
                     </div>
                     <label class="img-info">
                         img1egfaertgsertgsertawdfafazergfaerfZSEfzsefzsefzssertsertsrt.jpg
@@ -67,7 +67,7 @@
                 <li class="img-item">
                     <div class="img-content">
                     <div class="img-box">
-                        <img src="../assets/img/img4.jpg"  imgsource="../assets/img/float2.png" alt="" class="img" draggable=false>
+                        <img src="../assets/img/img4.jpg"  alt="" class="img" draggable=false>
                     </div>
                     <label class="img-info">
                         img1egfaertgsertgsertawdfafazergfaerfZSEfzsefzsefzssertsertsrt.jpg
@@ -83,7 +83,7 @@
                 <li class="img-item">
                     <div class="img-content">
                     <div class="img-box">
-                        <img src="../assets/img/img5.jpg"  imgsource="../assets/img/float1.png" alt="" class="img" draggable=false>
+                        <img src="../assets/img/img5.jpg"  alt="" class="img" draggable=false>
                     </div>
                     <label class="img-info">
                         img1egfaertgsertgsertawdfafazergfaerfZSEfzsefzsefzssertsertsrt.jpg
@@ -99,7 +99,39 @@
                 <li class="img-item">
                     <div class="img-content">
                     <div class="img-box">
-                        <img src="../assets/img/dragon.jpg"  imgsource="../assets/img/float2.png" alt="" class="img" draggable=false>
+                        <img src="../assets/img/dragon.jpg"  alt="" class="img" draggable=false>
+                    </div>
+                    <label class="img-info">
+                        img1egfaertgsertgsertawdfafazergfaerfZSEfzsefzsefzssertsertsrt.jpg
+                    </label>
+                    <label class="img-info">
+                        2022.9.16
+                    </label>
+                    <label class="img-info">
+                        00:00:00
+                    </label>
+                </div>
+                </li>
+                <li class="img-item">
+                    <div class="img-content">
+                    <div class="img-box">
+                        <img src="../assets/img/float1.png"  alt="" class="img" draggable=false>
+                    </div>
+                    <label class="img-info">
+                        img1egfaertgsertgsertawdfafazergfaerfZSEfzsefzsefzssertsertsrt.jpg
+                    </label>
+                    <label class="img-info">
+                        2022.9.16
+                    </label>
+                    <label class="img-info">
+                        00:00:00
+                    </label>
+                </div>
+                </li>
+                <li class="img-item">
+                    <div class="img-content">
+                    <div class="img-box">
+                        <img src="../assets/img/float2.png"  alt="" class="img" draggable=false>
                     </div>
                     <label class="img-info">
                         img1egfaertgsertgsertawdfafazergfaerfZSEfzsefzsefzssertsertsrt.jpg
@@ -264,7 +296,7 @@
                     imgTarget.classList.remove('img-check');
                 }
                 if(ev.target.tagName==="IMG"){
-                    let url=ev.target.getAttribute('imgsource');//获取实际移动的图片名称;
+                    let url=ev.target.getAttribute('src');//获取实际移动的图片名称;
                     getImageSize(url);
                     imgTarget=document.createElement('div');
                     imgTarget.classList.add('img-clone');
@@ -345,7 +377,7 @@
             }
             if(ev.clientY>trackTop&&ev.clientY<trackTop+trackHeight){
                 resolveOver(ev);
-                floatTarget.style.opacity=0;
+                // floatTarget.style.opacity=0;
             }else{
                 resolveLeave();
             }
